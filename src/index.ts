@@ -1,3 +1,3 @@
-import LfpElement from './lfp_element'
+import LfpElement from './LfpElement'
 
 LfpElement.loadElements(document)

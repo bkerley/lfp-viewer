@@ -1,5 +1,5 @@
 import { assertIsArrayBuffer } from "@tool-belt/type-predicates/dist/index"
-import LfpSection from "LfpSection"
+import LfpSection, { LfpSectionType } from "LfpSection"
 
 let LfpMagicNumber = Uint8Array.from([0x89, 0x4C, 0x46, 0x50, 0x0D, 0x0A, 0x1A, 0x0A])
 
@@ -9,6 +9,8 @@ export default class LfpFile {
     content_cursor = 0
     has_correct_magic_number: Boolean = false
     sections: LfpSection[] = []
+
+    #metadata?: any
 
     constructor(url: URL) {
         this.url = url
@@ -45,5 +47,18 @@ export default class LfpFile {
             this.sections.push(new_section)
             start += new_section.paddedLength
         }
+    }
+
+    metadataSection() {
+        return this.sections.find(s => LfpSectionType.Metadata == s.type)
+    }
+
+    metadata() {
+        if (this.#metadata) return this.#metadata
+
+        let dec = new TextDecoder()
+        this.#metadata = JSON.parse(dec.decode(this.metadataSection().content()))
+        
+        return this.#metadata
     }
 }

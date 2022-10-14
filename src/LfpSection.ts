@@ -39,6 +39,10 @@ export default class LfpSection {
         this.start += 80
     }
 
+    content() {
+        return this.buf.slice(this.start, this.start + this.contentLength)
+    }
+
     padLength() {
         let total_length = this.contentLength + headerLength
         let rem = total_length % 0x10

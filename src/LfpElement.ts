@@ -52,6 +52,7 @@ export default class LfpElement {
                 el.innerHTML += `<li>${dec.decode(s.name)} ${String.fromCharCode(s.type)} ${s.contentLength}</li>`
             }
             el.innerHTML += '</ol>'
+            el.innerHTML += `<pre>${JSON.stringify(this.file.metadata(), null, 2)}</pre>`
             this.replaced_html_element = el
             this.original_html_element.parentElement
                 .replaceChild(this.replaced_html_element, this.original_html_element)
