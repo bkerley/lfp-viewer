@@ -37,7 +37,7 @@ This project decodes the `.LFP` files, because it's easy :P
 ## Just Looking
 
 Check out <https://bkerley.github.io/lfp-viewer/> ,
-or <./index.html> .
+or `index.html` in this directory.
 
 ## I want this on my own web page
 
