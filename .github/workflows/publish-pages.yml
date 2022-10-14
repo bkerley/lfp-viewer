@@ -10,6 +10,7 @@ jobs:
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 18
+      - run: npm install
       - run: npm run build
       - run: mkdir github-pages
       - run: cp -R index.html build demo github-pages/
