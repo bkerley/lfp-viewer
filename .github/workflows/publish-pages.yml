@@ -1,0 +1,35 @@
+name: Publish to GH Pages
+run-name: ${{ github.sha }} publish
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 18
+      - run: npm run build
+      - run: mkdir github-pages
+      - run: cp -R index.html build demo github-pages/
+      - name: Cook Pages artifact
+        uses: actions/upload-pages-artifact@v1.0.4
+        with:
+          path: github-pages
+  deploy:
+    needs: build
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
