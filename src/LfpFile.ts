@@ -8,7 +8,7 @@ export default class LfpFile {
     content?: ArrayBuffer
     content_cursor = 0
     has_correct_magic_number: Boolean = false
-    sections: LfpSection[] = []
+    sections: Map<string, LfpSection> = new Map()
 
     #metadata?: any
 
@@ -42,15 +42,22 @@ export default class LfpFile {
         let end = this.content.byteLength
         var view = new DataView(this.content)
 
+        let dec = new TextDecoder()
+
         while (start < end) {
             let new_section = new LfpSection(this.content, start)
-            this.sections.push(new_section)
+            let name = dec.decode(new_section.name).replaceAll("\0", '')
+            this.sections.set(name, new_section)
             start += new_section.paddedLength
         }
     }
-
+ 
     metadataSection() {
-        return this.sections.find(s => LfpSectionType.Metadata == s.type)
+        for (let s of this.sections.values()) {
+            if (LfpSectionType.Metadata == s.type) return s
+        } 
+
+        return undefined
     }
 
     metadata() {
@@ -60,5 +67,19 @@ export default class LfpFile {
         this.#metadata = JSON.parse(dec.decode(this.metadataSection().content()))
         
         return this.#metadata
+    }
+
+    imageStack() {
+        let images = 
+            this.metadata()['views'][0]['accelerations'][0]['perImage'].
+                sort((a, b) => a.focus - b.focus)
+        for (let i of images) {
+            let section = this.sections.get(i['imageRef'])
+            if (!section) break 
+            i['blob'] = section.blob()
+            i['blobURL'] = section.blobURL()
+        }
+
+        return images
     }
 }

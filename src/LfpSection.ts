@@ -17,6 +17,9 @@ export default class LfpSection {
     paddedLength: number
     name: Uint8Array
 
+    #blob?: Blob
+    #blob_url: string
+
     constructor(buf: ArrayBuffer, start: number) {
         this.buf = buf
         this.view = new DataView(buf)
@@ -41,6 +44,22 @@ export default class LfpSection {
 
     content() {
         return this.buf.slice(this.start, this.start + this.contentLength)
+    }
+
+    blob() {
+        if (this.#blob) return this.#blob
+
+        this.#blob = new Blob([this.content()])
+
+        return this.#blob
+    }
+
+    blobURL() {
+        if (this.#blob_url) return this.#blob_url
+
+        this.#blob_url = URL.createObjectURL(this.blob())
+
+        return this.#blob_url
     }
 
     padLength() {

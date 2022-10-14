@@ -8,8 +8,8 @@
           "src/*"
         ]
       },
-      "lib": ["es2017", "dom"],
-      "target": "ES2017",
+      "lib": ["es2021", "dom"],
+      "target": "ES2021",
       "module": "ES2015"
     },
     "include": [

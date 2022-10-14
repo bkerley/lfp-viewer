@@ -1,3 +1,3 @@
-import LfpElement from './LfpElement'
+import LfpDebug from './LfpDebug'
 
-LfpElement.loadElements(document)
+LfpDebug.loadElements(document)
