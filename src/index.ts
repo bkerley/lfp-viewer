@@ -1,3 +1,3 @@
 import LfpDebug from './LfpDebug'
 
-LfpDebug.loadElements(document)
+document.addEventListener('DOMContentLoaded', _e => LfpDebug.loadElements(document))
