@@ -2,9 +2,9 @@
   "name": "lfp-viewer",
   "version": "1.0.0",
   "description": "viewer for lytro lfp files",
-  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild src/index.ts --sourcemap --bundle --outfile=build/lfp-viewer.js",
+    "dev-server": "esbuild src/index.ts --sourcemap --bundle --outfile=build/lfp-viewer.js --servedir=."
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/bkerley/lfp-viewer/issues"
   },
-  "homepage": "https://github.com/bkerley/lfp-viewer#readme"
+  "homepage": "https://github.com/bkerley/lfp-viewer#readme",
+  "devDependencies": {
+    "esbuild": "^0.15.10",
+    "esbuild-plugin-sass": "^1.0.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@tool-belt/type-predicates": "^1.2.2"
+  }
 }

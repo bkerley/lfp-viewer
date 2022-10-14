@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "outDir": "build",
+      "baseUrl": ".",
+      "paths": {
+        "*": [
+          "node_modules/*",
+          "src/*"
+        ]
+      },
+      "lib": ["es2017", "dom"],
+      "target": "ES2017",
+      "module": "ES2015"
+    },
+    "include": [
+      "src/**/*"
+    ]
+  }
